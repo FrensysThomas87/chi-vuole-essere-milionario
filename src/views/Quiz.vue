@@ -76,7 +76,7 @@ export default {
       ],
 
       activeIndex:0,
-      activeIndexAnswers:0,
+     
       
 
       
@@ -84,14 +84,13 @@ export default {
    },
 
    methods:{
-      generateRandom:function(activeIndex, activeIndexAnswers){
-         activeIndex = Math.floor(Math.random() * (this.quizGame.length - 1 + 1 - 0) + 0);
-         activeIndexAnswers = activeIndex;
-         return activeIndexAnswers;
-        
-         
-         
-      }
+      generateRandom:function(){
+         this.activeIndex = Math.floor(Math.random() * (this.quizGame.length - 1 + 1 - 0) + 0);
+         console.log(this.activeIndex);
+         return this.activeIndex;
+      },
+
+     
    }
 }
 </script>
