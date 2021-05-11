@@ -1,14 +1,14 @@
 <template>
   <div>
-     <p>{{answer.risposta}}</p>
+     <p>{{question.domanda}}</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: "Risposte",
+  name: "Domande",
   props:{
-    answer: Object,
+    question: Object,
   }
   
  }
