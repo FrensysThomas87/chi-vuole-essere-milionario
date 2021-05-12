@@ -1,12 +1,24 @@
 <template>
-   <div>
-      <Domande v-for="(question, i) in quizGame[generateRandom()].domande" 
-      :question = "question" 
-      :key = "i"/>
+         <div>
+            <header>
+               <div id="logo-container">
+                  <img src="../assets/logo_gioco.png" alt="">
+               </div>
+            </header>
+            
+            <main>
+               <div class="container">
+                  <Domande v-for="(question, i) in quizGame[generateRandom()].domande" 
+                  :question = "question" 
+                  :key = "i"/>
 
-      <Risposte v-for="(answer, i) in quizGame[generateRandom()].risposte" 
-      :answer = "answer" 
-      :key = "i"/>
+            <div class="answers-container">
+               <Risposte v-for="(answer, i) in quizGame[generateRandom()].risposte" 
+               :answer = "answer" 
+               :key = "i"/>
+            </div>
+         </div>
+      </main>
    </div>
 </template>
 
@@ -31,19 +43,29 @@ export default {
             {
                domande: [
             {
-                  domanda:'Come mi chiamo?',
-               }
-            ],
+                  domanda:'In che anno fù fondata Roma?',
+            }
+         ],
 
                risposte:[
                   {
-                     risposta:'Francesco',
-                     bool:true,
+                     risposta:'A:1000 A.C',
+                     bool:false,
                   },
 
                   {
-                     risposta:'Mario',
+                     risposta:'B:1500 A.C',
                      bool:false,
+                  },
+
+                   {
+                     risposta:'C:900 A.C',
+                     bool:false,
+                  },
+
+                   {
+                     risposta:'D:700 A.C',
+                     bool:true,
                   },
                ]
             },
@@ -94,3 +116,50 @@ export default {
    }
 }
 </script>
+
+<style lang="scss">
+   
+   *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      }
+
+   header{
+      background-color: #121084;
+      height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      #logo-container{
+         width: 300px;
+         
+         img{
+            width: 100%;
+         }
+      }
+   }
+
+   main{
+      height: calc(100vh - 400px);
+      background-color: #11093A;
+      
+
+      .container{
+         padding-top: 15px;
+         width: 1200px;
+         margin: 0 auto;
+         
+         
+
+          .answers-container{
+             width: 100%;
+            margin: 0 auto;
+      }
+   }
+
+     
+      
+   }
+</style>
