@@ -5,6 +5,7 @@ import Quiz from "../views/Quiz.vue";
 
 
 
+
 Vue.use(VueRouter);
 
 const routes = [

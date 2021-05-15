@@ -10,13 +10,17 @@
                <div class="container">
                   <Domande v-for="(question, i) in quizGame[generateRandom()].domande" 
                   :question = "question" 
-                  :key = "i"/>
+                  :key = "i"
+                  />
 
-            <div class="answers-container">
+            
                <Risposte v-for="(answer, i) in quizGame[generateRandom()].risposte" 
                :answer = "answer" 
-               :key = "i"/>
-            </div>
+               :key = "i"
+               :class="bgColor"
+               class="answers"
+               v-on:catch-index="getIndex(i)"/>
+           
          </div>
       </main>
    </div>
@@ -91,14 +95,12 @@ export default {
                ]
             },
             
-
-
-        
-            
-      ],
+],
 
       activeIndex:0,
-     
+      answer : 'answers',
+      bgColor: '',
+    
       
 
       
@@ -112,8 +114,21 @@ export default {
          return this.activeIndex;
       },
 
-     
-   }
+      getIndex:function(index){
+         if(index === 0){
+         return   this.bgColor = 'bg-green';
+         }else{
+           return this.bgColor = 'bg-red';
+         }
+      }
+
+  
+      
+   },
+
+
+
+  
 }
 </script>
 
@@ -124,6 +139,14 @@ export default {
       padding: 0;
       box-sizing: border-box;
       }
+
+   .bg-green{
+      background-color: green;
+   }
+
+   .bg-red{
+      background-color: red;
+   }
 
    header{
       background-color: #121084;
@@ -150,15 +173,41 @@ export default {
          padding-top: 15px;
          width: 1200px;
          margin: 0 auto;
+        
+         
+
+         p{
+            width: 50%;
+            color: #fff;
+            margin-bottom: 55px;
+            padding: 10px;
+            border: 1px solid #fff;
+            border-radius: 20px;
+            text-align: center;
+            margin-left: 25%;
+
+         
+         }
          
          
 
-          .answers-container{
-             width: 100%;
-            margin: 0 auto;
+            .answers{
+               width:41%;
+               padding: 10px 100px;
+               margin-left: 73px;
+               float: left;
+               border: 1px solid #fff;
+               border-radius: 20px;
+               margin-bottom: 15px;
+               text-align: center;
+               cursor: pointer;
+
+               span{
+                  color: #fff;
+               }
       }
-   }
-
+   
+}
      
       
    }

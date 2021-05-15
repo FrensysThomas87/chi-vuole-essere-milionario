@@ -15,8 +15,5 @@ export default {
 </script>
 
 <style scoped>
-  p{
-    color: #fff;
-    margin-bottom: 55px;
-  }
+
 </style>
