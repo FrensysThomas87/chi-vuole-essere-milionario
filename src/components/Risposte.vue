@@ -1,7 +1,7 @@
 <template>
 <div>
   
-    <div v-on:click="$emit('catch-index')">
+    <div v-on:click="$emit('give-color'), $emit('next-question')">
       <span>{{answer.risposta}}</span>
     </div>
 

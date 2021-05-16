@@ -8,18 +8,19 @@
             
             <main>
                <div class="container">
-                  <Domande v-for="(question, i) in quizGame[generateRandom()].domande" 
+                  <Domande v-for="(question, i) in quizGame[activeIndex].domande" 
                   :question = "question" 
                   :key = "i"
                   />
 
             
-               <Risposte v-for="(answer, i) in quizGame[generateRandom()].risposte" 
+               <Risposte v-for="(answer, i) in quizGame[activeIndex].risposte" 
                :answer = "answer" 
                :key = "i"
                :class="answer.bgColor"
                class="answers"
-               v-on:catch-index="getIndex(answer)"/>
+               v-on:give-color="giveColor(answer)"
+               v-on:next-question="delayRandom()"/>
            
          </div>
       </main>
@@ -82,19 +83,31 @@ export default {
             {
                domande: [
              {
-                  domanda:'Quanti anni ho?',
+                  domanda:'In che anno cadde l\'Impero Romano?',
                }
             ],
 
                risposte:[
                   {
-                     risposta:'34',
-                     bool:true,
+                     risposta:'A:100 D.C',
+                     bool:false,
                      bgColor: ''
                   },
 
                   {
-                     risposta:'40',
+                     risposta:'B:300 D.C',
+                     bool:false,
+                     bgColor: ''
+                  },
+
+                   {
+                     risposta:'C:476 D.C',
+                     bool:true,
+                     bgColor: ''
+                  },
+
+                   {
+                     risposta:'D:500 D.C',
                      bool:false,
                      bgColor: ''
                   },
@@ -104,19 +117,28 @@ export default {
 ],
 
       activeIndex:0,
-      answer : 'answers',
+      usedNumbers: [],
       
-      activeButton:0,
+      
     }
    },
 
    methods:{
       generateRandom:function(){
          this.activeIndex = Math.floor(Math.random() * (this.quizGame.length - 1 + 1 - 0) + 0);
+         
+         this.usedNumbers.push(this.activeIndex);
+         if(this.usedNumbers.includes(this.activeIndex)){
+            this.activeIndex++;
+            if(this.quizGame.length){
+               this.activeIndex--;
+            }
+         }
+         console.log(this.usedNumbers);
          return this.activeIndex;
       },
 
-      getIndex:function(array){
+      giveColor:function(array){
          
          if(array.bool === true){
             array.bgColor = 'bg-green';
@@ -124,6 +146,12 @@ export default {
            array.bgColor = 'bg-red';
          }
       },
+
+      delayRandom:function(){
+         setTimeout(()=>{
+         this.generateRandom();
+      },2000);
+      }
 
      
 
