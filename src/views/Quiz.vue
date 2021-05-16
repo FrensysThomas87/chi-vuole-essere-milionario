@@ -17,9 +17,9 @@
                <Risposte v-for="(answer, i) in quizGame[generateRandom()].risposte" 
                :answer = "answer" 
                :key = "i"
-               :class="bgColor"
+               :class="answer.bgColor"
                class="answers"
-               v-on:catch-index="getIndex(i)"/>
+               v-on:catch-index="getIndex(answer)"/>
            
          </div>
       </main>
@@ -55,21 +55,25 @@ export default {
                   {
                      risposta:'A:1000 A.C',
                      bool:false,
+                     bgColor: ''
                   },
 
                   {
                      risposta:'B:1500 A.C',
                      bool:false,
+                     bgColor: ''
                   },
 
                    {
                      risposta:'C:900 A.C',
                      bool:false,
+                     bgColor: ''
                   },
 
                    {
                      risposta:'D:700 A.C',
                      bool:true,
+                     bgColor: ''
                   },
                ]
             },
@@ -86,11 +90,13 @@ export default {
                   {
                      risposta:'34',
                      bool:true,
+                     bgColor: ''
                   },
 
                   {
                      risposta:'40',
                      bool:false,
+                     bgColor: ''
                   },
                ]
             },
@@ -99,28 +105,27 @@ export default {
 
       activeIndex:0,
       answer : 'answers',
-      bgColor: '',
-    
       
-
-      
+      activeButton:0,
     }
    },
 
    methods:{
       generateRandom:function(){
          this.activeIndex = Math.floor(Math.random() * (this.quizGame.length - 1 + 1 - 0) + 0);
-         console.log(this.activeIndex);
          return this.activeIndex;
       },
 
-      getIndex:function(index){
-         if(index === 0){
-         return   this.bgColor = 'bg-green';
+      getIndex:function(array){
+         
+         if(array.bool === true){
+            array.bgColor = 'bg-green';
          }else{
-           return this.bgColor = 'bg-red';
+           array.bgColor = 'bg-red';
          }
-      }
+      },
+
+     
 
   
       
