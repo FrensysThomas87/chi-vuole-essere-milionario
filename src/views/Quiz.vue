@@ -7,11 +7,10 @@
             </header>
             
             <main>
-               <div class="container">
+               <div class="container" v-if="inGame === true">
                   <Domande v-for="(question, i) in quizGame[activeIndex].domande" 
                   :question = "question" 
-                  :key = "i"
-                  />
+                  :key = "i"/>
 
             
                <Risposte v-for="(answer, i) in quizGame[activeIndex].risposte" 
@@ -20,10 +19,15 @@
                :class="answer.bgColor"
                class="answers"
                v-on:give-color="giveColor(answer)"
-               v-on:next-question="delayRandom()"/>
+               v-on:next-question="delayRandom(answer)"/>
            
          </div>
+         <h2 class="score" v-if="inGame">Il tuo punteggio attuale è: {{counter}}</h2>
+         <h2 class="score" v-else>Il tuo punteggio finale è: {{counter}}</h2>
+         <div id="play-again" v-if="inGame === false"  @click="playAgain">Gioca ancora</div>
       </main>
+
+      
    </div>
 </template>
 
@@ -49,6 +53,7 @@ export default {
                domande: [
             {
                   domanda:'In che anno fù fondata Roma?',
+                  questioned: false
             }
          ],
 
@@ -84,6 +89,7 @@ export default {
                domande: [
              {
                   domanda:'In che anno cadde l\'Impero Romano?',
+                  questioned: false
                }
             ],
 
@@ -113,11 +119,87 @@ export default {
                   },
                ]
             },
+
+             {
+               domande: [
+             {
+                  domanda:'Come si chiamava il famoso generale della seconda guerra punica?',
+                  questioned: false
+               }
+            ],
+
+               risposte:[
+                  {
+                     risposta:'A:Lucio',
+                     bool:false,
+                     bgColor: ''
+                  },
+
+                  {
+                     risposta:'B:Sannicandro',
+                     bool:false,
+                     bgColor: ''
+                  },
+
+                   {
+                     risposta:'C:Annibale',
+                     bool:true,
+                     bgColor: ''
+                  },
+
+                   {
+                     risposta:'D:Mitride',
+                     bool:false,
+                     bgColor: ''
+                  },
+               ]
+            },
+
+             {
+               domande: [
+             {
+                  domanda:'In che anno è avvenuta l\'unità d\'Italia?',
+                  questioned: false
+               }
+            ],
+
+               risposte:[
+                  {
+                     risposta:'A:1820',
+                     bool:false,
+                     bgColor: ''
+                  },
+
+                  {
+                     risposta:'B:1861',
+                     bool:true,
+                     bgColor: ''
+                  },
+
+                   {
+                     risposta:'C:1848',
+                     bool:false,
+                     bgColor: ''
+                  },
+
+                   {
+                     risposta:'D:1850',
+                     bool:false,
+                     bgColor: ''
+                  },
+               ]
+            },
+            
             
 ],
 
       activeIndex:0,
       usedNumbers: [],
+      inGame: true,
+      counter:0,
+      spliced:0,
+      arrCounter:0
+      
       
       
     }
@@ -125,39 +207,66 @@ export default {
 
    methods:{
       generateRandom:function(){
-         this.activeIndex = Math.floor(Math.random() * (this.quizGame.length - 1 + 1 - 0) + 0);
-         
-         this.usedNumbers.push(this.activeIndex);
-         if(this.usedNumbers.includes(this.activeIndex)){
+       
+            //   this.activeIndex = Math.floor(Math.random() * (this.quizGame.length  + 1 - 0) + 0);
+
+
+            //    if(!this.usedNumbers.includes(this.activeIndex)){
+            //       this.activeIndex++;
+            //       this.usedNumbers.push(this.activeIndex);
+                  
+            // }
+
+            // for(var i = 0; i < this.usedNumbers.length;i++){
+            //    this.activeIndex = i;
+            // }
+
             this.activeIndex++;
-            if(this.quizGame.length){
-               this.activeIndex--;
+            if(this.activeIndex === this.quizGame.length){
+               this.inGame = false;
             }
-         }
-         console.log(this.usedNumbers);
-         return this.activeIndex;
+        
+            
+
+               
+       
+        
+       
+        
+        
+      },
+
+      playAgain:function(){
+         this.activeIndex = 0;
+         this.inGame = true;
       },
 
       giveColor:function(array){
          
          if(array.bool === true){
+            
+            this.counter++;
             array.bgColor = 'bg-green';
+           
          }else{
+            
            array.bgColor = 'bg-red';
+           
          }
       },
 
-      delayRandom:function(){
+      delayRandom:function(array){
          setTimeout(()=>{
          this.generateRandom();
+         array.bgColor = '';
       },2000);
-      }
+   }
 
-     
+},
 
-  
-      
-   },
+// mounted(){
+//    this.generateRandom()
+// }
 
 
 
@@ -175,11 +284,19 @@ export default {
 
    .bg-green{
       background-color: green;
+       animation: blink 0.3s linear infinite;
    }
 
    .bg-red{
       background-color: red;
+       animation: blink 0.3s linear infinite;
    }
+
+   @keyframes blink{
+   0%{opacity: 0.3;}
+   50%{opacity: .8;}
+   100%{opacity: 1;}
+}
 
    header{
       background-color: #121084;
@@ -200,6 +317,7 @@ export default {
    main{
       height: calc(100vh - 400px);
       background-color: #11093A;
+      position: relative;
       
 
       .container{
@@ -238,10 +356,28 @@ export default {
                span{
                   color: #fff;
                }
-      }
-   
-}
-     
+            }
+         }
+
+            .score{
+               position: absolute;
+               top:80%;
+               left: 50%;
+               transform: translateX(-50%);
+               color: #fff;
+            }
+
+            #play-again{
+               position: absolute;
+               background-color: #fff;
+               border-radius: 5px;
+               padding: 15px;
+               color: #000;
+               top: 88%;
+               left: 50%;
+               transform: translateX(-50%);
+               cursor: pointer;
+            }
       
    }
 </style>
