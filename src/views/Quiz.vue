@@ -22,8 +22,9 @@
                v-on:next-question="delayRandom(answer)"/>
            
          </div>
-         <h2 class="score" v-if="inGame">Il tuo punteggio attuale è: {{counter}}</h2>
-         <h2 class="score" v-else>Il tuo punteggio finale è: {{counter}}</h2>
+         <h2 class="score" v-if="inGame">Il tuo punteggio attuale è: {{counterCorrect}}</h2>
+         <h2 class="score" v-else>Il tuo punteggio finale è: {{counterCorrect}}</h2>
+         <h2 id="incorrect-counter" v-if="inGame === false">Hai sbagliato {{counterFalse}} domade</h2>
          <div id="play-again" v-if="inGame === false"  @click="playAgain">Gioca ancora</div>
       </main>
 
@@ -196,9 +197,10 @@ export default {
       activeIndex:0,
       usedNumbers: [],
       inGame: true,
-      counter:0,
+      counterCorrect:0,
+      counterFalse:0,
       spliced:0,
-      arrCounter:0
+      arrcounterCorrect:0
       
       
       
@@ -238,6 +240,8 @@ export default {
 
       playAgain:function(){
          this.activeIndex = 0;
+         this.counterCorrect = 0;
+         this.counterFalse = 0;
          this.inGame = true;
       },
 
@@ -245,12 +249,14 @@ export default {
          
          if(array.bool === true){
             
-            this.counter++;
+            this.counterCorrect++;
             array.bgColor = 'bg-green';
            
          }else{
             
+            this.counterFalse++;
            array.bgColor = 'bg-red';
+
            
          }
       },
@@ -365,6 +371,14 @@ export default {
                left: 50%;
                transform: translateX(-50%);
                color: #fff;
+            }
+
+            #incorrect-counter{
+               position: absolute;
+               top: 70%;
+               color: #fff;
+               left: 50%;
+               transform: translateX(-50%);
             }
 
             #play-again{
