@@ -5,23 +5,31 @@
                   <img src="../assets/logo_gioco.png" alt="">
                </div>
             </header>
+
+               <audio autoplay>
+                  <source src="../assets/bensound-epic.mp3">
+               </audio>
             
             <main>
+              
                <div class="container" v-if="inGame === true">
+
+                 
+
                   <Domande v-for="(question, i) in quizGame[activeIndex].domande" 
                   :question = "question" 
                   :key = "i"/>
 
             
-               <Risposte v-for="(answer, i) in quizGame[activeIndex].risposte" 
-               :answer = "answer" 
-               :key = "i"
-               :class="answer.bgColor"
-               class="answers"
-               v-on:give-color="giveColor(answer)"
-               v-on:next-question="delayNextQuestion(answer)"/>
+                  <Risposte v-for="(answer, i) in quizGame[activeIndex].risposte" 
+                  :answer = "answer" 
+                  :key = "i"
+                  :class="answer.bgColor"
+                  class="answers"
+                  v-on:give-color="giveColor(answer)"
+                  v-on:next-question="delayNextQuestion(answer)"/>
            
-         </div>
+               </div>
          <h2 class="score" v-if="inGame">Il tuo patrimonio è: € {{currentAmount}}</h2>
          <!-- <h2 class="score" v-if="inGame">Il tuo punteggio attuale è: {{counterCorrect}}</h2> -->
          <h2 class="score" v-else>Il tuo punteggio finale è: {{counterCorrect}}</h2>
@@ -148,7 +156,8 @@ export default {
                    {
                      risposta:'C:Annibale',
                      bool:true,
-                     bgColor: ''
+                     bgColor: '',
+                     amount: 2000
                   },
 
                    {
@@ -177,7 +186,8 @@ export default {
                   {
                      risposta:'B:1861',
                      bool:true,
-                     bgColor: ''
+                     bgColor: '',
+                     amount: 10000
                   },
 
                    {
@@ -190,6 +200,44 @@ export default {
                      risposta:'D:1850',
                      bool:false,
                      bgColor: ''
+                  },
+               ]
+            },
+
+
+            {
+               domande: [
+            {
+                  domanda:'L\'HTML è',
+                  questioned: false
+            }
+         ],
+
+               risposte:[
+                  {
+                     risposta:'Un liguaggio di programmazione',
+                     bool:false,
+                     bgColor: ''
+                  },
+
+                  {
+                     risposta:'Un liguaggio di markup',
+                     bool:true,
+                     bgColor: '',
+                     amount: 50000
+                  },
+
+                   {
+                     risposta:'Un\'unità di misura',
+                     bool:false,
+                     bgColor: ''
+                  },
+
+                   {
+                     risposta:'Uno standard ISO',
+                     bool:false,
+                     bgColor: '',
+                     
                   },
                ]
             },
