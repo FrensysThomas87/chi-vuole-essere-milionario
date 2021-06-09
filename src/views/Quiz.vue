@@ -19,10 +19,11 @@
                :class="answer.bgColor"
                class="answers"
                v-on:give-color="giveColor(answer)"
-               v-on:next-question="delayRandom(answer)"/>
+               v-on:next-question="delayNextQuestion(answer)"/>
            
          </div>
-         <h2 class="score" v-if="inGame">Il tuo punteggio attuale è: {{counterCorrect}}</h2>
+         <h2 class="score" v-if="inGame">Il tuo patrimonio è: € {{currentAmount}}</h2>
+         <!-- <h2 class="score" v-if="inGame">Il tuo punteggio attuale è: {{counterCorrect}}</h2> -->
          <h2 class="score" v-else>Il tuo punteggio finale è: {{counterCorrect}}</h2>
          <h2 id="incorrect-counter" v-if="inGame === false">Hai sbagliato {{counterFalse}} domade</h2>
          <div id="play-again" v-if="inGame === false"  @click="playAgain">Gioca ancora</div>
@@ -80,7 +81,8 @@ export default {
                    {
                      risposta:'D:700 A.C',
                      bool:true,
-                     bgColor: ''
+                     bgColor: '',
+                     amount: 500
                   },
                ]
             },
@@ -110,7 +112,8 @@ export default {
                    {
                      risposta:'C:476 D.C',
                      bool:true,
-                     bgColor: ''
+                     bgColor: '',
+                     amount: 1000
                   },
 
                    {
@@ -200,7 +203,8 @@ export default {
       counterCorrect:0,
       counterFalse:0,
       spliced:0,
-      arrcounterCorrect:0
+      arrcounterCorrect:0,
+      currentAmount:0,
       
       
       
@@ -208,7 +212,7 @@ export default {
    },
 
    methods:{
-      generateRandom:function(){
+      nextQuestion:function(){
        
             //   this.activeIndex = Math.floor(Math.random() * (this.quizGame.length  + 1 - 0) + 0);
 
@@ -228,15 +232,7 @@ export default {
                this.inGame = false;
             }
         
-            
-
-               
-       
-        
-       
-        
-        
-      },
+         },
 
       playAgain:function(){
          this.activeIndex = 0;
@@ -250,20 +246,24 @@ export default {
          if(array.bool === true){
             
             this.counterCorrect++;
+            this.currentAmount += array.amount;
             array.bgColor = 'bg-green';
            
          }else{
-            
+            array.bgColor = 'bg-red';
             this.counterFalse++;
-           array.bgColor = 'bg-red';
-
-           
+            setTimeout(()=>{
+               this.inGame = false;
+            },2000);
+            
+            this.currentAmount = 0;
          }
       },
 
-      delayRandom:function(array){
+      delayNextQuestion:function(array){
          setTimeout(()=>{
-         this.generateRandom();
+         this.nextQuestion();
+         
          array.bgColor = '';
       },2000);
    }
